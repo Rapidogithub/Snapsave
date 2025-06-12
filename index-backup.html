@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnapSave - Smart Cross-Device Storage</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Sidebar for Desktop -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>SnapSave</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#add" class="nav-item active" data-view="add">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Add Content</span>
+                </a>
+                <a href="#access" class="nav-item" data-view="access">
+                    <i class="fas fa-key"></i>
+                    <span>Access Files</span>
+                </a>
+                <a href="#view" class="nav-item" data-view="view">
+                    <i class="fas fa-folder-open"></i>
+                    <span>My Files</span>
+                </a>
+                <a href="#settings" class="nav-item" data-view="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <div class="status-dot online"></div>
+                    <span>Cloud Connected</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>SnapSave</h1>
+                <div class="mobile-actions">
+                    <button class="action-btn" id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="content-wrapper">
+                <!-- Add New Content Section -->
+                <section id="add-section" class="content-section active">
+                    <div class="section-header">
+                        <h2><i class="fas fa-cloud-upload-alt"></i> Add New Content</h2>
+                        <p>Upload files, save links, or create notes with secure 2-digit access</p>
+                    </div>
+                    
+                    <div class="upload-cards">
+                        <div class="upload-card" data-type="photo">
+                            <div class="card-icon">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <h3>Photo</h3>
+                            <p>Upload images & photos</p>
+                        </div>
+                        
+                        <div class="upload-card" data-type="video">
+                            <div class="card-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h3>Video</h3>
+                            <p>Upload videos & clips</p>
+                        </div>
+                        
+                        <div class="upload-card" data-type="url">
+                            <div class="card-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <h3>URL</h3>
+                            <p>Save important links</p>
+                        </div>
+                        
+                        <div class="upload-card" data-type="text">
+                            <div class="card-icon">
+                                <i class="fas fa-sticky-note"></i>
+                            </div>
+                            <h3>Note</h3>
+                            <p>Create text notes</p>
+                        </div>
+                    </div>
+
+                    <!-- Upload Form -->
+                    <div class="upload-form" id="upload-form" style="display: none;">
+                        <div class="form-header">
+                            <button class="back-btn" id="back-btn">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                            <h3 id="form-title">Upload Content</h3>
+                        </div>
+                        
+                        <form id="add-form">
+                            <div class="form-group" id="file-input-group" style="display: none;">
+                                <label for="file-input">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    Choose File
+                                </label>
+                                <input type="file" id="file-input" accept="image/*,video/*">
+                                <div class="file-preview" id="file-preview">
+                                    <div class="upload-placeholder">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <p>Click to select file</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="url-input-group" style="display: none;">
+                                <label for="url-input">
+                                    <i class="fas fa-link"></i>
+                                    URL Address
+                                </label>
+                                <input type="url" id="url-input" placeholder="https://example.com">
+                            </div>
+
+                            <div class="form-group" id="text-input-group" style="display: none;">
+                                <label for="text-input">
+                                    <i class="fas fa-edit"></i>
+                                    Your Note
+                                </label>
+                                <textarea id="text-input" placeholder="Write your note here..." rows="6"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">
+                                    <i class="fas fa-lock"></i>
+                                    2-Digit Access Code
+                                </label>
+                                <div class="password-input">
+                                    <input type="text" id="password" maxlength="2" placeholder="00" pattern="[0-9]{2}" required>
+                                    <div class="password-hint">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span>Enter 2 digits (00-99) to secure your content</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <i class="fas fa-save"></i>
+                                Save Content
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Access Content Section -->
+                <section id="access-section" class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-unlock-alt"></i> Access Your Content</h2>
+                        <p>Enter your 2-digit code to retrieve all saved items</p>
+                    </div>
+                    
+                    <div class="access-card">
+                        <div class="access-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        
+                        <form id="access-form">
+                            <div class="form-group">
+                                <label for="access-password">Enter Access Code</label>
+                                <div class="code-input">
+                                    <input type="text" id="access-password" maxlength="2" placeholder="00" pattern="[0-9]{2}" required>
+                                    <div class="code-dots">
+                                        <span class="dot"></span>
+                                        <span class="dot"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <i class="fas fa-search"></i>
+                                Access Content
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- View Saved Content Section -->
+                <section id="view-section" class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-folder-open"></i> Your Saved Content</h2>
+                        <p>All your securely stored files and notes</p>
+                    </div>
+                    
+                    <div id="content-display">
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-inbox"></i>
+                            </div>
+                            <h3>No Content Loaded</h3>
+                            <p>Enter a password to view your saved items</p>
+                            <button class="btn btn-secondary" onclick="document.querySelector('[data-view=access]').click()">
+                                <i class="fas fa-key"></i>
+                                Enter Password
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings-section" class="content-section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-cog"></i> Settings</h2>
+                        <p>Configure your SnapSave experience</p>
+                    </div>
+                    
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <div class="setting-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="setting-content">
+                                <h3>Security</h3>
+                                <p>2-digit access codes for quick sharing</p>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-card">
+                            <div class="setting-icon">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <div class="setting-content">
+                                <h3>Cloud Storage</h3>
+                                <p>Access from any device, anywhere</p>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-card">
+                            <div class="setting-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="setting-content">
+                                <h3>Mobile Optimized</h3>
+                                <p>Perfect experience on all devices</p>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-card">
+                            <div class="setting-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div class="setting-content">
+                                <h3>Instant Access</h3>
+                                <p>No registration, just enter your code</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <h3>Processing...</h3>
+            <p>Please wait while we handle your request</p>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="mobile-menu-overlay">
+        <div class="mobile-menu-content">
+            <div class="mobile-menu-header">
+                <h3>Menu</h3>
+                <button class="close-menu" id="close-menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mobile-menu-nav">
+                <a href="#add" class="mobile-nav-item" data-view="add">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Add Content</span>
+                </a>
+                <a href="#access" class="mobile-nav-item" data-view="access">
+                    <i class="fas fa-key"></i>
+                    <span>Access Files</span>
+                </a>
+                <a href="#view" class="mobile-nav-item" data-view="view">
+                    <i class="fas fa-folder-open"></i>
+                    <span>My Files</span>
+                </a>
+                <a href="#settings" class="mobile-nav-item" data-view="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
